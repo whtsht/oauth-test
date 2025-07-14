@@ -1,0 +1,34 @@
+<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
+<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+
+<h1>Edit Your Name</h1>
+
+<% if @user.name.present? %>
+  <p><strong>Current name:</strong> <%= @user.name %></p>
+<% else %>
+  <p><em>No name set</em></p>
+<% end %>
+
+<%= form_with model: @user, url: user_path, method: :patch, local: true do |form| %>
+  <% if @user.errors.any? %>
+    <div style="color:red">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    <%= form.label :name, "Your Name:" %>
+    <%= form.text_field :name, placeholder: "Enter your name (optional)" %>
+  </p>
+
+  <%= form.submit "Update Name" %>
+<% end %>
+
+<br>
+
+<%= button_to "Logout", session_path, method: :delete, style: "color: red; background: none; border: none; text-decoration: underline; cursor: pointer;" %>
