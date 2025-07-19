@@ -1,24 +1,12 @@
-# README
+# OAuth 2 Test
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+認証（Authentication）
+ユーザーが「本人である」ことを確認するプロセス
+例）Webサイトにログインするときに、ユーザー名とパスワードを入力する
 
-Things you may want to cover:
+認可（Authorization）あるユーザーやアプリが「特定のデータや機能にアクセスできる」ことを許可するプロセス
+例）Googleアカウントを使って外部アプリにカレンダーの予定を読み取る権限を与える
 
-* Ruby version
+セキュリティ向上：パスワードを外部サービスに渡さなくても、認可された範囲内でアクセスを許可できる
+ユーザー体験の向上：一度認可すれば、パスワードを入力することなくスムーズにアクセスできる
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
