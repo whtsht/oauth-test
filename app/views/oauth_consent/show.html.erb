@@ -1,0 +1,50 @@
+<h1>An application requests access to your data!</h1>
+
+<%= form_with url: oauth_consent_path, method: :post, local: true, data: { turbo: false } do |form| %>
+  <%= form.hidden_field :challenge, value: @challenge %>
+  
+  <% if @consent_request.dig('client', 'logo_uri') %>
+    <img src="<%= @consent_request['client']['logo_uri'] %>" alt="Client Logo">
+  <% end %>
+  
+  <p>
+    Hi <%= @consent_request['subject'] %>, application 
+    <strong><%= @consent_request.dig('client', 'client_name') || @consent_request.dig('client', 'client_id') %></strong> 
+    wants access resources on your behalf and to:
+  </p>
+  
+  <% @consent_request['requested_scope']&.each do |scope| %>
+    <div>
+      <%= check_box_tag 'grant_scope[]', scope, true, id: scope, class: 'grant_scope' %>
+      <%= label_tag scope, scope %>
+    </div>
+  <% end %>
+  
+  <p>
+    Do you want to be asked next time when this application wants to access your data? The application will
+    not be able to ask for more permissions without your consent.
+  </p>
+  
+  <ul>
+    <% if @consent_request.dig('client', 'policy_uri') %>
+      <li>
+        <%= link_to "Policy", @consent_request['client']['policy_uri'], target: "_blank" %>
+      </li>
+    <% end %>
+    <% if @consent_request.dig('client', 'tos_uri') %>
+      <li>
+        <%= link_to "Terms of Service", @consent_request['client']['tos_uri'], target: "_blank" %>
+      </li>
+    <% end %>
+  </ul>
+  
+  <div>
+    <%= form.check_box :remember, value: "1" %>
+    <%= form.label :remember, "Do not ask me again" %>
+  </div>
+  
+  <div>
+    <%= form.submit "Allow access", name: :submit %>
+    <%= form.submit "Deny access", name: :submit %>
+  </div>
+<% end %>

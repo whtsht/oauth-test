@@ -1,0 +1,36 @@
+<h1 id="login-title">Please log in</h1>
+
+<% if @error %>
+  <p style="color: red;"><%= @error %></p>
+<% end %>
+
+<%= form_with url: oauth_login_path, method: :post, local: true, data: { turbo: false } do |form| %>
+  <%= form.hidden_field :challenge, value: @challenge %>
+  
+  <table>
+    <tr>
+      <td>
+        <%= form.email_field :email, placeholder: "email@example.com", value: @hint, required: true %>
+      </td>
+      <td>Email address</td>
+    </tr>
+    <tr>
+      <td>
+        <%= form.password_field :password, required: true %>
+      </td>
+      <td>Password</td>
+    </tr>
+  </table>
+  
+  <div>
+    <%= form.check_box :remember, value: "1" %>
+    <%= form.label :remember, "Remember me" %>
+  </div>
+  
+  <br>
+  
+  <div>
+    <%= form.submit "Log in", name: :submit %>
+    <%= form.submit "Deny access", name: :submit %>
+  </div>
+<% end %>
