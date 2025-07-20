@@ -11,7 +11,7 @@ const CLIENT_ID = "oauth-test-client";
 const CLIENT_SECRET = "some-secret";
 const AUTH_URL = "http://127.0.0.1:5444/oauth2/auth";
 const CALLBACK_URL = "http://localhost:9010/callback";
-const SCOPE = "openid offline photos.read";
+const SCOPE = "openid offline";
 const PORT = 9010;
 
 // 1. コマンドライン引数を取得

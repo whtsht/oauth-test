@@ -65,7 +65,7 @@
 **Scope（スコープ）**
 - アクセス権限の範囲を定義
 - リソースオーナーが許可する具体的な操作を指定
-- 例：`openid offline photos.read`
+- 例：`openid offline`
 
 ### 認可フローの種類
 
@@ -151,6 +151,6 @@ docker run --rm \
     --secret some-secret \
     --grant-types authorization_code,refresh_token,client_credentials,implicit \
     --response-types token,code,id_token \
-    --scope openid,offline,photos.read \
+    --scope openid,offline \
     --callbacks http://127.0.0.1:9010/callback
 ```
