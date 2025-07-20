@@ -2,6 +2,7 @@ class OauthConsentController < ApplicationController
   skip_before_action :require_authentication
   protect_from_forgery with: :exception
 
+  # 11. Hydraから同意画面リダイレクト GET /oauth/consent?challenge=...
   def show
     challenge = params[:consent_challenge]
 
@@ -14,6 +15,7 @@ class OauthConsentController < ApplicationController
       @consent_request = HydraService.get_consent_request(challenge)
       @challenge = challenge
 
+      # 12. ユーザーへ同意画面表示
       if @consent_request["skip"] || @consent_request.dig("client", "skip_consent")
         accept_params = {
           grant_scope: @consent_request["requested_scope"],
@@ -34,6 +36,7 @@ class OauthConsentController < ApplicationController
     end
   end
 
+  # 13. POST /oauth/consent (スコープ許可)
   def create
     challenge = params[:challenge]
 
@@ -70,6 +73,7 @@ class OauthConsentController < ApplicationController
         remember_for: 3600
       }
 
+      # 14. Hydraへ同意承認送信 POST /oauth2/auth/requests/consent/accept
       result = HydraService.accept_consent_request(challenge, accept_params)
       redirect_to result["redirect_to"], allow_other_host: true
 

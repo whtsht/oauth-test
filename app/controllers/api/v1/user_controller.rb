@@ -4,6 +4,7 @@ module Api
       skip_before_action :require_authentication
       skip_before_action :verify_authenticity_token
 
+      # 3. GET /api/v1/user/profile (Bearer token) - クライアントから
       def profile
         token = extract_bearer_token
 
@@ -13,8 +14,10 @@ module Api
         end
 
         begin
+          # 4. Hydraへトークン検証要求 POST /oauth2/introspect
           introspection_result = HydraService.introspect_token(token)
           Rails.logger.info "Introspection result: #{introspection_result}"
+          # 5. Hydraから検証結果レスポンス トークン情報 (sub: email)
 
           unless introspection_result["active"]
             render json: { error: "Invalid or expired token" }, status: :unauthorized
@@ -22,6 +25,7 @@ module Api
           end
 
           user_email = introspection_result["sub"]
+          # 6. ユーザー情報取得 (email_address)
           user = User.find_by(email_address: user_email)
 
           unless user
@@ -29,6 +33,7 @@ module Api
             return
           end
 
+          # 7. クライアントへレスポンス JSON {name, email}
           render json: {
             name: user.name,
             email: user.email_address

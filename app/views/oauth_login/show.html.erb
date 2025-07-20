@@ -1,4 +1,4 @@
-<h1 id="login-title">Please log in</h1>
+<h1 id="login-title">ログインしてください</h1>
 
 <% if @error %>
   <p style="color: red;"><%= @error %></p>
@@ -12,25 +12,25 @@
       <td>
         <%= form.email_field :email, placeholder: "email@example.com", value: @hint, required: true %>
       </td>
-      <td>Email address</td>
+      <td>メールアドレス</td>
     </tr>
     <tr>
       <td>
         <%= form.password_field :password, required: true %>
       </td>
-      <td>Password</td>
+      <td>パスワード</td>
     </tr>
   </table>
   
   <div>
     <%= form.check_box :remember, value: "1" %>
-    <%= form.label :remember, "Remember me" %>
+    <%= form.label :remember, "ログインを記憶する" %>
   </div>
   
   <br>
   
   <div>
-    <%= form.submit "Log in", name: :submit %>
-    <%= form.submit "Deny access", name: :submit %>
+    <%= form.submit "ログイン", name: :submit %>
+    <%= form.submit "アクセスを拒否", name: :submit %>
   </div>
 <% end %>

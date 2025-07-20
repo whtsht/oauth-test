@@ -1,13 +1,13 @@
-<h1>An application requests access to your data!</h1>
+<h1>アプリケーションがあなたのデータへのアクセスを要求しています</h1>
 
 <%= form_with url: oauth_consent_path, method: :post, local: true, data: { turbo: false } do |form| %>
   <%= form.hidden_field :challenge, value: @challenge %>
 
 
   <p>
-    Hi <%= @consent_request['subject'] %>, application 
-    <strong><%= @consent_request.dig('client', 'client_name') || @consent_request.dig('client', 'client_id') %></strong> 
-    wants access resources on your behalf and to:
+    こんにちは <%= @consent_request['subject'] %> さん、アプリケーション
+    <strong><%= @consent_request.dig('client', 'client_name') || @consent_request.dig('client', 'client_id') %></strong>
+    があなたの代わりにリソースへのアクセスを要求しています：
   </p>
 
   <% @consent_request['requested_scope']&.each do |scope| %>
@@ -18,17 +18,17 @@
   <% end %>
 
   <p>
-    Do you want to be asked next time when this application wants to access your data? The application will
-    not be able to ask for more permissions without your consent.
+    このアプリケーションが次回データにアクセスする際に再度確認しますか？アプリケーションは
+    あなたの同意なしに追加の権限を要求することはできません。
   </p>
 
   <div>
     <%= form.check_box :remember, value: "1" %>
-    <%= form.label :remember, "Do not ask me again" %>
+    <%= form.label :remember, "次回から確認しない" %>
   </div>
 
   <div>
-    <%= form.submit "Allow access", name: :submit %>
-    <%= form.submit "Deny access", name: :submit %>
+    <%= form.submit "アクセスを許可", name: :submit %>
+    <%= form.submit "アクセスを拒否", name: :submit %>
   </div>
 <% end %>
