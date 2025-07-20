@@ -3,12 +3,19 @@ Rails.application.routes.draw do
   resource :registration, only: [ :new, :create ]
   resource :session, except: [ :show ]
   resources :passwords, param: :token
-  
+
   # Hydra OAuth2 Login and Consent endpoints
   get "/oauth/login", to: "oauth_login#show"
   post "/oauth/login", to: "oauth_login#create"
   get "/oauth/consent", to: "oauth_consent#show"
   post "/oauth/consent", to: "oauth_consent#create"
+
+  # API endpoints
+  namespace :api do
+    namespace :v1 do
+      get "/user/profile", to: "user#profile"
+    end
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
