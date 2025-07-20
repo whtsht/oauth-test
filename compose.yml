@@ -1,0 +1,74 @@
+services:
+  postgres:
+    image: postgres:9.6
+    container_name: ory-hydra-example--postgres
+    environment:
+      - POSTGRES_USER=hydra
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=hydra
+    networks:
+      - hydraguide
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hydra"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  hydra-migrate:
+    image: oryd/hydra:v1.10.6
+    container_name: ory-hydra-example--hydra-migrate
+    command: migrate sql -e --yes
+    environment:
+      - DSN=postgres://hydra:secret@postgres:5432/hydra?sslmode=disable
+    networks:
+      - hydraguide
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  hydra:
+    image: oryd/hydra:v1.10.6
+    container_name: ory-hydra-example--hydra
+    command: serve all --dangerous-force-http
+    ports:
+      - "127.0.0.1:5444:4444"
+      - "127.0.0.1:5445:4445"
+    environment:
+      - SECRETS_SYSTEM=${SECRETS_SYSTEM}
+      - DSN=postgres://hydra:secret@postgres:5432/hydra?sslmode=disable
+      - URLS_SELF_ISSUER=http://127.0.0.1:5444/
+      - URLS_CONSENT=http://127.0.0.1:9020/consent
+      - URLS_LOGIN=http://127.0.0.1:9020/login
+      - URLS_ERROR=http://127.0.0.1:5444/error
+      - URLS_POST_LOGOUT_REDIRECT=http://127.0.0.1:5444/
+      - OAUTH2_ISSUER_URL=http://127.0.0.1:5444/
+      - OAUTH2_CONSENT_URL=http://127.0.0.1:9020/consent
+      - OAUTH2_LOGIN_URL=http://127.0.0.1:9020/login
+    networks:
+      - hydraguide
+    depends_on:
+      hydra-migrate:
+        condition: service_completed_successfully
+
+  consent:
+    image: oryd/hydra-login-consent-node:v1.10.6
+    container_name: ory-hydra-example--consent
+    ports:
+      - "127.0.0.1:9020:3000"
+    environment:
+      - HYDRA_ADMIN_URL=http://hydra:4445
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    networks:
+      - hydraguide
+    depends_on:
+      - hydra
+
+networks:
+  hydraguide:
+    name: hydraguide
+    external: true
+
+volumes:
+  postgres-data:
