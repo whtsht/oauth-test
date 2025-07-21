@@ -87,7 +87,7 @@
 - 非推奨（OAuth 2.0の利点を損なう）
 
 
-## 認証フロー
+## 認証、認可フロー
 
 ```mermaid
 sequenceDiagram

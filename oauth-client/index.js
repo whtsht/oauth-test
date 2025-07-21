@@ -14,7 +14,7 @@ const CALLBACK_URL = "http://localhost:9010/callback";
 const SCOPE = "openid offline";
 const PORT = 9010;
 
-// 1. コマンドライン引数を取得
+// コマンドライン引数を取得
 const command = process.argv[2];
 
 if (command === "auth") {
@@ -31,7 +31,7 @@ if (command === "auth") {
 }
 
 function startAuthServer() {
-  // 2. サーバー起動 (localhost:9010)
+  // サーバー起動 (localhost:9010)
   const app = express();
   let state = "";
   let codeVerifier = "";
@@ -43,9 +43,9 @@ function startAuthServer() {
     `);
   });
 
-  // 4. GET /auth (ユーザーがアクセス)
+  // GET /auth (ユーザーがアクセス)
   app.get("/auth", (_req, res) => {
-    // 5. PKCE生成 (state, codeVerifier, codeChallenge)
+    // PKCE生成 (state, codeVerifier, codeChallenge)
     state = crypto.randomBytes(16).toString("hex");
     codeVerifier = crypto.randomBytes(32).toString("base64url");
     const codeChallenge = crypto
@@ -63,12 +63,12 @@ function startAuthServer() {
       code_challenge_method: "S256",
     };
 
-    // 6. Hydraへ認証リクエスト GET /oauth2/auth?response_type=code&client_id=...
+    // Hydraへ認証リクエスト GET /oauth2/auth?response_type=code&client_id=...
     const authUrl = `${AUTH_URL}?${querystring.stringify(params)}`;
     res.redirect(authUrl);
   });
 
-  // 15. Hydraからコールバック GET /callback?code=...&state=...
+  // Hydraからコールバック GET /callback?code=...&state=...
   app.get("/callback", async (req, res) => {
     const { code, state: returnedState } = req.query;
 
@@ -84,7 +84,7 @@ function startAuthServer() {
         code_verifier: codeVerifier,
       });
 
-      // 16. Hydraへトークン要求 POST /oauth2/token (認可コード → アクセストークン)
+      // Hydraへトークン要求 POST /oauth2/token (認可コード → アクセストークン)
       const response = await new Promise((resolve, reject) => {
         const options = {
           hostname: "127.0.0.1",
@@ -116,21 +116,21 @@ function startAuthServer() {
         req.end();
       });
 
-      // 17. Hydraからトークンレスポンス アクセストークン、リフレッシュトークン
+      // Hydraからトークンレスポンス アクセストークン、リフレッシュトークン
       const tokens = await response.json();
 
-      // 18. .secretファイルに保存
+      // .secretファイルに保存
       fs.writeFileSync(".secret", JSON.stringify(tokens, null, 2));
       console.log("認証成功！トークンを.secretファイルに保存しました");
 
-      // 19. 認証成功画面
+      // 認証成功画面
       res.send(`
         <h1>認証成功！</h1>
         <p>トークンが安全に保存されました。</p>
         <p><strong>ブラウザを閉じてください。</strong></p>
       `);
 
-      // 20. サーバー自動終了
+      // サーバー自動終了
       setTimeout(() => {
         process.exit(0);
       }, 1000);
@@ -144,15 +144,15 @@ function startAuthServer() {
     console.log(
       "ブラウザで http://localhost:9010 にアクセスして認証を開始してください",
     );
-    // 3. ブラウザ自動オープン
+    // ブラウザ自動オープン
     open(`http://localhost:${PORT}`);
   });
 }
 
-// 1. node index.js get-name (リソース取得フロー開始)
+// node index.js get-name (リソース取得フロー開始)
 async function getUserName() {
   try {
-    // 2. .secretからアクセストークン読み込み
+    // .secretからアクセストークン読み込み
     if (!fs.existsSync(".secret")) {
       console.error("エラー: .secretファイルが見つかりません。");
       console.error('"node index.js auth" で認証を行ってください。');
@@ -168,7 +168,7 @@ async function getUserName() {
       process.exit(1);
     }
 
-    // 3. RailsへAPI要求 GET /api/v1/user/profile (Bearer token)
+    // RailsへAPI要求 GET /api/v1/user/profile (Bearer token)
     const response = await new Promise((resolve, reject) => {
       const options = {
         hostname: "localhost",
@@ -201,7 +201,7 @@ async function getUserName() {
     });
 
     if (response.status === 200) {
-      // 8. ユーザー名とメールアドレス表示
+      // ユーザー名とメールアドレス表示
       console.log(`ユーザー名: ${response.data.name}`);
       console.log(`メールアドレス: ${response.data.email}`);
     } else {

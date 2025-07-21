@@ -2,7 +2,7 @@ class OauthLoginController < ApplicationController
   skip_before_action :require_authentication
   protect_from_forgery with: :exception
 
-  # 7. Hydraからログイン画面リダイレクト GET /oauth/login?challenge=...
+  # Hydraからログイン画面リダイレクト GET /oauth/login?challenge=...
   def show
     challenge = params[:login_challenge]
 
@@ -15,7 +15,7 @@ class OauthLoginController < ApplicationController
       @login_request = HydraService.get_login_request(challenge)
       @challenge = challenge
 
-      # 8. ユーザーへログイン画面表示
+      # ユーザーへログイン画面表示
       if @login_request["skip"]
         accept_params = {
           subject: @login_request["subject"]
@@ -33,7 +33,7 @@ class OauthLoginController < ApplicationController
     end
   end
 
-  # 9. POST /oauth/login (email, password)
+  # POST /oauth/login (email, password)
   def create
     challenge = params[:challenge]
 
@@ -69,7 +69,7 @@ class OauthLoginController < ApplicationController
         acr: "0"
       }
 
-      # 10. Hydraへログイン承認送信 POST /oauth2/auth/requests/login/accept
+      # Hydraへログイン承認送信 POST /oauth2/auth/requests/login/accept
       result = HydraService.accept_login_request(challenge, accept_params)
       redirect_to result["redirect_to"], allow_other_host: true
 

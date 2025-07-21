@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="450" xmlns="http://www.w3.org/2000/svg">
+  <title>OAuth 2.0 概要</title>
+  
+  <!-- 背景 -->
+  <rect width="800" height="450" fill="#f8f9fa"/>
+  
+  
+  <!-- リソースオーナー（ユーザー） -->
+  <g transform="translate(100, 100)">
+    <rect width="150" height="80" rx="10" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+    <text x="75" y="35" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#1976d2">リソースオーナー</text>
+    <text x="75" y="55" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333">（ユーザー）</text>
+  </g>
+  
+  <!-- クライアント -->
+  <g transform="translate(100, 300)">
+    <rect width="150" height="80" rx="10" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+    <text x="75" y="35" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#f57c00">クライアント</text>
+    <text x="75" y="55" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333">（アプリ）</text>
+  </g>
+  
+  <!-- 認可サーバー -->
+  <g transform="translate(400, 100)">
+    <rect width="150" height="80" rx="10" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+    <text x="75" y="45" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#7b1fa2">認可サーバー</text>
+  </g>
+  
+  <!-- リソースサーバー -->
+  <g transform="translate(400, 300)">
+    <rect width="150" height="80" rx="10" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+    <text x="75" y="45" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#388e3c">リソースサーバー</text>
+  </g>
+  
+  <!-- 矢印と説明 -->
+  
+  <!-- 1. 認可要求 -->
+  <g>
+    <path d="M 175 180 L 175 300" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead1)"/>
+    <text x="185" y="240" font-family="Arial, sans-serif" font-size="12" fill="#666">1. 認可要求</text>
+  </g>
+  
+  <!-- 2. ユーザー認証・認可 -->
+  <g>
+    <path d="M 250 140 L 400 140" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead2)"/>
+    <text x="325" y="130" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#666">2. ユーザー認証要求</text>
+  </g>
+  
+  <!-- 3. ユーザー承認 -->
+  <g>
+    <path d="M 400 140 L 250 180" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead3)"/>
+    <text x="325" y="170" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#666">3. ユーザー承認</text>
+  </g>
+  
+  <!-- 4. 認可コード発行 -->
+  <g>
+    <path d="M 250 340 L 400 140" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead4)"/>
+    <text x="290" y="240" font-family="Arial, sans-serif" font-size="12" fill="#666">4. 認可コード発行</text>
+  </g>
+  
+  <!-- 5. トークン交換 -->
+  <g>
+    <path d="M 250 340 L 400 180" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead5)"/>
+    <text x="290" y="270" font-family="Arial, sans-serif" font-size="12" fill="#666">5. トークン交換</text>
+    <text x="290" y="285" font-family="Arial, sans-serif" font-size="10" fill="#666">（認可コード→トークン）</text>
+  </g>
+  
+  <!-- 6. リソースアクセス -->
+  <g>
+    <path d="M 250 340 L 400 340" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead6)"/>
+    <text x="325" y="330" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#666">6. リソースアクセス</text>
+    <text x="325" y="350" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#666">（トークン使用）</text>
+  </g>
+  
+  
+  <!-- 矢印の定義 -->
+  <defs>
+    <marker id="arrowhead1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+    <marker id="arrowhead3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+    <marker id="arrowhead4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+    <marker id="arrowhead5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+    <marker id="arrowhead6" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+</svg>
